@@ -5,3 +5,4 @@ authors = ["sisyphus"]
 edition = "2018"
 
 [dependencies]
+dir_deleter = { path = "." }

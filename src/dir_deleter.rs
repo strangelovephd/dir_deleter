@@ -3,7 +3,9 @@ use std::fs;
 use std::str::FromStr;
 use std::iter;
 use std::io::ErrorKind;
+use std::collections::HashSet;
 
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum ProgramFlags {
     DirectoryMode,
     FileMode,
@@ -32,7 +34,7 @@ impl DirDeleter {
         }
     }
 
-    fn parse_flags(flags: &String) -> Option<Vec<ProgramFlags>> {
+    pub fn parse_flags(flags: &String) -> Option<Vec<ProgramFlags>> {
         if !(flags[..2].as_bytes() == "--".as_bytes()) { 
             return None; 
         }
@@ -55,14 +57,45 @@ impl DirDeleter {
     fn validate(&self) -> std::io::Result<()> {
         let attr = fs::metadata(self.starting_dir.as_path())?;
         if !attr.is_dir() {
-            return Err(ErrorKind::NotFound);
+            return Err(std::io::Error::new(ErrorKind::NotFound, "Starting path not found. . ."));
         }
-
         Ok(())
     }
 
     pub fn run(&self) {
-        self.validate();
+        match self.validate() {
+            Ok(()) => {},
+            Err(e) => {
+                println!("{}", e);
+                panic!("Exiting program.");
+            }
+        }
+
         unimplemented!();
+    }
+
+    fn troll_dirs(&self) -> Option<HashSet<PathBuf>> {
+        let paths: HashSet<PathBuf> = HashSet::new();
+        
+        let mut working_dir = self.starting_dir.clone();
+        
+
+        if paths.is_empty() {
+            None
+        } else {
+            Some(paths)
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parse_test() {
+        let flags = String::from("--ds");
+        let parsed = DirDeleter::parse_flags(&flags);
+        assert_eq!(parsed, Some(vec![ProgramFlags::DirectoryMode, ProgramFlags::SingleMode]));       
     }
 }
