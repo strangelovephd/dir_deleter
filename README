@@ -1,16 +1,18 @@
-Program Flow:
+** Current Status:** Not Working
 
-Arguments:
-    0: Program file name.
-    1: flag for mode (--d -directory, --f -file)
-    2: Starting directory name.
-    3: Target directory/file to delete.
+# Program Flow:
 
-Example:
-    dir_deleter --d ~/dev/ ./target/
-    dir_deleter --f ~/other_directory ./file.temp
+### Arguments:
+0. Program file name.
+1. flag for mode (--d -directory, --f -file)
+2. Starting directory name.
+3. Target directory/file to delete.
 
-Logic:
+### Example:
+   * dir_deleter --d ~/dev/ ./target/
+   * dir_deleter --f ~/other_directory ./file.temp
+
+### Logic:
     
     Determine mode based on flag (set mode for files or directories)
 
@@ -33,7 +35,6 @@ Logic:
             - Continue iterating.
         - etc.
 
-Ideas:
-    - Flag to store deleted file/directory names in a .dir_deleter file.
-    - Don't actually delete the files, move them to a temp directory and after
-      the temp directory gets to a certain size, delete the oldest files.
+### Ideas:
+ - Flag to store deleted file/directory names in a .dir_deleter file.
+ - Don't actually delete the files, move them to a temp directory and after the temp directory gets to a certain size, delete the oldest files.
